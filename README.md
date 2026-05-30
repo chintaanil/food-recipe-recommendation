@@ -68,6 +68,27 @@ npm install
 ```bash
 npm run dev
 ```
+## Screenshots
+
+### Login Page
+
+![Login Page](screen%20shots/login%20page.png)
+
+### Sign Up Page
+
+![Sign Up Page](screen%20shots/sign%20up%20page.png)
+
+### Veg Section
+
+![Veg Section](screen%20shots/veg%20section.png)
+
+### Non Veg Section
+
+![Non Veg Section](screen%20shots/non-veg%20section.png)
+
+### Output Page
+
+![Output Page](screen%20shots/output%20page.png)
 
 ## Author
 
