@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RecipeAI Veg Collection</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/veg.css" />
+</head>
+
+<body data-category="all">
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="container topbar__inner">
+        <a class="brand" href="index.html" aria-label="Back to home">
+          <span class="brand__mark">RecipeAI</span>
+          <span class="brand__sub">Vegetarian recipe collection</span>
+        </a>
+        <div class="topbar__actions">
+          <a class="ghost-btn" href="recipes.html">Home</a>
+          <button class="accent-btn" type="button" id="showRandom">Surprise Me</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero__inner">
+          <div class="hero__content">
+            <p class="eyebrow">Telugu states vegetarian favorites</p>
+            <h1>Regional veg recipes with beautiful photos and ingredient help.</h1>
+            <p class="hero__copy">
+              Browse a premium gallery of Telugu states dishes, search instantly, and click any dish to get ingredients
+              from the assistant.
+            </p>
+
+            <div class="hero__stats" aria-label="Vegetarian collection stats">
+              <div class="stat-card"><strong>20+</strong><span>Recipes</span></div>
+              <div class="stat-card"><strong>100%</strong><span>Veg</span></div>
+              <div class="stat-card"><strong>Quick</strong><span>Ingredient chat</span></div>
+            </div>
+
+            <div class="hero__actions">
+              <a class="hero-btn hero-btn--solid" href="#vegGrid">Browse Recipes</a>
+              <button class="hero-btn hero-btn--ghost" type="button" id="askIngredients">Ask Ingredients</button>
+            </div>
+          </div>
+
+          <div class="hero-gallery" aria-label="Featured vegetarian images">
+            <div class="hero-gallery__main">
+              <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1400&q=80"
+                alt="Fresh vegetarian bowl" />
+            </div>
+            <div class="hero-gallery__stack">
+              <img src="https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=900&q=80"
+                alt="Vegetarian rice bowl" />
+              <img src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=80"
+                alt="Colorful vegetarian salad" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="showcase">
+        <div class="container showcase__inner">
+          <div class="recipe-panel">
+            <div class="panel-head">
+              <div>
+                <p class="section-label">Regional veg recipes</p>
+                <h2>Browse Telugu states dishes</h2>
+              </div>
+              <label class="search-pill" for="vegSearch">
+                <span>Search</span>
+                <input id="vegSearch" type="search" placeholder="Search recipes or ingredients" />
+              </label>
+            </div>
+
+            <div class="filter-row" aria-label="Veg recipe filters">
+              <a class="chip is-active" href="veg.html">All</a>
+              <a class="chip" href="veg-telugu.html">Telugu States</a>
+              <a class="chip" href="veg-festival.html">Festival Sweets</a>
+              <a class="chip" href="veg-quick.html">Quick Meals</a>
+            </div>
+
+            <div class="count-row">
+              <p id="vegCount">Loading recipes...</p>
+              <p>Click any card to view ingredients.</p>
+            </div>
+
+            <div id="vegGrid" class="veg-grid" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="assets/js/veg.js"></script>
+</body>
+
+</html>

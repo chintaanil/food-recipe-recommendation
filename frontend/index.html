@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RecipeAI | Discover Recipes Faster</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+
+<body>
+  <div class="page-shell">
+    <section class="hero hero--redesigned hero--premium">
+      <div class="hero-bg-container">
+        <img src="assets/images/chef.jpg" class="hero-bg-img" alt="Chef Background" />
+        <div class="hero-bg-overlay hero-bg-overlay--premium"></div>
+      </div>
+
+      <header class="home-topbar" id="homeTopbar">
+        <a href="index.html" class="home-brand" aria-label="RecipeAI home">
+          <span class="home-brand__title">RecipeAI</span>
+          <span class="home-brand__sub">Smart Kitchen Companion</span>
+        </a>
+        <div id="topbarActions" aria-label="Quick actions" class="home-topbar__actions">
+          <button class="ghost-btn home-login-btn" type="button" onclick="window.location.href='login.html'">Login</button>
+          <a class="accent-btn home-signin-btn" href="login.html">Sign in</a>
+        </div>
+      </header>
+
+      <div class="container hero-layout">
+        <div class="hero-copy">
+          <h1 class="hero__title-typewriter hero-title-gradient">
+            <span id="typewriterText">Cook with what you have. Create something unforgettable.</span>
+          </h1>
+          <p id="dynamicQuote" class="hero__quote hero__subtitle">
+            Instant recommendations, authentic flavors, and premium cooking guidance designed for modern home kitchens.
+          </p>
+          <div class="hero-cta-row">
+            <button class="hero-btn hero-btn--cta hero-btn--premium" type="button" onclick="window.location.href='login.html'">Start Cooking</button>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <article class="hero-main-card glass-card">
+            <img src="assets/images/login-bg.png" alt="Curated recipe showcase" class="hero-main-card__image" />
+            <div class="hero-main-card__content">
+              <p>Featured Today</p>
+              <h3>Regional Andhra Specials</h3>
+              <span>50+ chef-curated picks</span>
+            </div>
+          </article>
+          <article class="floating-card floating-card--veg glass-card">
+            <strong>Veg</strong>
+            <span>Authentic Telugu favorites</span>
+          </article>
+          <article class="floating-card floating-card--nonveg glass-card">
+            <strong>Non-Veg</strong>
+            <span>Rich, bold weekend classics</span>
+          </article>
+          <article class="floating-card floating-card--ai glass-card">
+            <strong>AI Chef</strong>
+            <span>Ingredients to recipe in seconds</span>
+          </article>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="assets/js/api-config.js"></script>
+  <script src="assets/js/script.js"></script>
+  <script>
+    const AUTH_TOKEN_KEY = "recipeai_token";
+
+    // Dynamic nav: show Profile if logged in, Sign In if guest
+    (async function checkAuth() {
+      try {
+        const token = localStorage.getItem(AUTH_TOKEN_KEY);
+        if (!token) {
+          return;
+        }
+
+        const res = await fetch(API_BASE + "/api/me", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (res.status === 401) {
+          localStorage.removeItem(AUTH_TOKEN_KEY);
+          return;
+        }
+
+        if (res.ok) {
+          const data = await res.json();
+          const user = data.user;
+          const actionsDiv = document.getElementById("topbarActions");
+          if (actionsDiv) {
+            actionsDiv.innerHTML = `
+              <a href="profile.html" class="accent-btn home-profile-link">
+                <span class="home-profile-link__avatar">${user.username.charAt(0).toUpperCase()}</span>
+                ${user.username}
+              </a>
+            `;
+          }
+        }
+      } catch (e) {
+        // Server not running or not authenticated â€” keep default buttons
+      }
+    })();
+  </script>
+</body>
+
+</html>

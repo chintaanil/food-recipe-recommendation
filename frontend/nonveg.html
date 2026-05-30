@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RecipeAI Non-Veg Collection | 50+ Premium Meat & Seafood Recipes</title>
+  <meta name="description" content="Explore 50+ premium non-vegetarian recipes from Indian, Telugu, and global cuisines. Chicken, mutton, fish, and more with ingredient assistant." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/nonveg.css" />
+</head>
+
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="container topbar__inner">
+        <a class="brand" href="index.html" aria-label="Back to home">
+          <span class="brand__mark">RecipeAI</span>
+          <span class="brand__sub">Non-vegetarian recipe collection</span>
+        </a>
+        <div class="topbar__actions">
+          <a class="ghost-btn" href="recipes.html">Home</a>
+          <button class="accent-btn" type="button" id="showRandom">Surprise Me</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero__inner">
+          <div class="hero__content">
+            <p class="eyebrow">Premium non-veg favorites</p>
+            <h1>Chicken, mutton, fish & more â€” crafted to perfection.</h1>
+            <p class="hero__copy">
+              Browse a stunning gallery of non-vegetarian dishes from Telugu states, North Indian, and global cuisines.
+              Search instantly and click any dish for ingredients from the assistant.
+            </p>
+
+            <div class="hero__stats" aria-label="Non-veg collection stats">
+              <div class="stat-card"><strong>50+</strong><span>Recipes</span></div>
+              <div class="stat-card"><strong>🍗</strong><span>Non-Veg</span></div>
+              <div class="stat-card"><strong>Quick</strong><span>Ingredient chat</span></div>
+            </div>
+
+            <div class="hero__actions">
+              <a class="hero-btn hero-btn--solid" href="#nonvegGrid">Browse Recipes</a>
+              <button class="hero-btn hero-btn--ghost" type="button" id="askIngredients">Ask Ingredients</button>
+            </div>
+          </div>
+
+          <div class="hero-gallery" aria-label="Featured non-veg images">
+            <div class="hero-gallery__main">
+              <img src="https://images.unsplash.com/photo-1603360946369-dc9bb6258143?auto=format&fit=crop&w=1400&q=80"
+                alt="Delicious chicken dish" />
+            </div>
+            <div class="hero-gallery__stack">
+              <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=900&q=80"
+                alt="Grilled meat platter" />
+              <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=900&q=80"
+                alt="Seafood dish" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="showcase">
+        <div class="container showcase__inner">
+          <div class="recipe-panel">
+            <div class="panel-head">
+              <div>
+                <p class="section-label">Non-veg recipes</p>
+                <h2>Browse meat & seafood dishes</h2>
+              </div>
+              <label class="search-pill" for="nonvegSearch">
+                <span>Search</span>
+                <input id="nonvegSearch" type="search" placeholder="Search recipes or ingredients" />
+              </label>
+            </div>
+
+            <div class="filter-row" aria-label="Non-veg recipe filters">
+              <button class="chip is-active" type="button" data-filter="all">All</button>
+              <button class="chip" type="button" data-filter="chicken">Chicken</button>
+              <button class="chip" type="button" data-filter="mutton">Mutton</button>
+              <button class="chip" type="button" data-filter="fish">Fish & Seafood</button>
+              <button class="chip" type="button" data-filter="egg">Egg</button>
+              <button class="chip" type="button" data-filter="telugu">Telugu Special</button>
+            </div>
+
+            <div class="count-row">
+              <p id="nonvegCount">Loading recipes...</p>
+              <p>Click any card to view ingredients.</p>
+            </div>
+
+            <div id="nonvegGrid" class="nonveg-grid" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="ingredientChatModal" class="ingredient-chat" hidden aria-hidden="true">
+    <button type="button" class="ingredient-chat__backdrop" data-chat-close aria-label="Close ingredient chat"></button>
+    <aside class="ingredient-chat__panel" role="dialog" aria-modal="true" aria-label="Non-veg ingredient assistant">
+      <div class="ingredient-chat__head">
+        <div>
+          <p class="section-label">Ingredient bot</p>
+          <h2>Ask for ingredients</h2>
+        </div>
+        <div class="ingredient-chat__head-actions">
+          <button id="clearChatHistory" class="ingredient-chat__clear" type="button">Clear History</button>
+          <button id="closeIngredientChat" class="ingredient-chat__close" type="button" aria-label="Close chat">✕</button>
+        </div>
+      </div>
+
+      <div id="chatThread" class="chat-thread" aria-live="polite"></div>
+
+      <div class="quick-asks">
+        <button class="quick-pill" type="button" data-query="chicken biryani">Chicken Biryani</button>
+        <button class="quick-pill" type="button" data-query="butter chicken">Butter Chicken</button>
+        <button class="quick-pill" type="button" data-query="fish curry">Fish Curry</button>
+        <button class="quick-pill" type="button" data-query="mutton rogan josh">Rogan Josh</button>
+      </div>
+
+      <div class="chat-controls">
+        <label class="servings-select" for="chatServings">
+          <span>Servings</span>
+          <select id="chatServings">
+            <option value="1">1 person</option>
+            <option value="2" selected>2 people</option>
+            <option value="4">4 people</option>
+            <option value="6">6 people</option>
+          </select>
+        </label>
+      </div>
+
+      <form id="chatForm" class="chat-form">
+        <input id="chatInput" type="text" placeholder="Type a non-veg dish name, like Chicken Biryani" autocomplete="off" />
+        <button type="submit">Send</button>
+      </form>
+    </aside>
+  </div>
+
+  <script src="assets/js/nonveg.js"></script>
+</body>
+
+</html>
+

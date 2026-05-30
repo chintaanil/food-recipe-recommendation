@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RecipeAI | Discover Recipes Faster</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+
+<body>
+  <div class="page-shell">
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <header class="topbar">
+      <div class="container topbar__inner">
+        <a class="brand" href="index.html" aria-label="RecipeAI home">
+          <span class="brand__mark">RecipeAI</span>
+          <span class="brand__sub">Fast, fresh recipe discovery</span>
+        </a>
+
+        <div class="search-panel" role="search">
+          <span class="search-panel__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20">
+              <path
+                d="M10.5 18a7.5 7.5 0 1 1 5.31-2.2l4.19 4.19-1.42 1.42-4.19-4.19A7.47 7.47 0 0 1 10.5 18Zm0-13a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z"
+                fill="currentColor" />
+            </svg>
+          </span>
+          <input id="searchInput" class="search-panel__input" type="search" placeholder="Search for recipes..."
+            autocomplete="off" aria-label="Search recipes" />
+        </div>
+
+        <div id="topbarActions" class="topbar__actions" aria-label="Quick actions">
+          <button class="ghost-btn" type="button">Saved</button>
+          <a class="accent-btn" href="login.html">Sign in</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="container" style="position: relative; z-index: 10; margin-top: 2rem; margin-bottom: 2rem;">
+        <div class="filters" aria-label="Recipe filters">
+          <div class="filters__group" role="group" aria-label="Diet filters">
+            <button class="filter-btn is-active" type="button" data-type="all">All</button>
+            <a class="filter-btn filter-link" href="veg.html" aria-label="Open veg recipes page">Veg 🍃</a>
+            <a class="filter-btn filter-link" href="nonveg.html" aria-label="Open non-veg recipes page">Non-Veg 🍗</a>
+          </div>
+
+          <label class="price-filter" for="priceFilter">
+            <span class="price-filter__label">Price</span>
+            <select id="priceFilter" class="price-filter__select" aria-label="Filter recipes by price">
+              <option value="all">All</option>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <section class="recipes-section">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="section-heading__label">Popular recipes</p>
+              <h2>Explore featured dishes</h2>
+            </div>
+            <div class="section-heading__controls">
+              <label class="sort-filter" for="sortFilter">
+                <span>Sort by</span>
+                <select id="sortFilter" aria-label="Sort recipes">
+                  <option value="default">Recommended</option>
+                  <option value="rating-desc">Rating: High to low</option>
+                  <option value="rating-asc">Rating: Low to high</option>
+                  <option value="name-asc">Name: A-Z</option>
+                </select>
+              </label>
+              <p class="section-heading__meta" id="resultsMeta">Showing all recipes</p>
+            </div>
+          </div>
+
+          <div id="recipesGrid" class="recipes-grid" aria-live="polite"></div>
+          <div id="noResults" class="no-results" hidden>
+            <h3>No results found</h3>
+            <p>Try a different search term or adjust the filters.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="assets/js/api-config.js"></script>
+  <script src="assets/js/script.js"></script>
+  <script>
+    const AUTH_TOKEN_KEY = "recipeai_token";
+
+    // Dynamic nav: show Profile with username and logout if logged in, Sign In if guest
+    (async function checkAuth() {
+      try {
+        const token = localStorage.getItem(AUTH_TOKEN_KEY);
+        if (!token) {
+          return;
+        }
+
+        const res = await fetch(API_BASE + "/api/me", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (res.status === 401) {
+          localStorage.removeItem(AUTH_TOKEN_KEY);
+          return;
+        }
+
+        if (res.ok) {
+          const data = await res.json();
+          const user = data.user;
+          const actionsDiv = document.getElementById("topbarActions");
+          if (actionsDiv) {
+            actionsDiv.innerHTML = `
+              <div style="display:flex;align-items:center;gap:1rem;">
+                <a href="profile.html" class="accent-btn" style="display:inline-flex;align-items:center;gap:0.5rem;text-decoration:none;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg>
+                  <span>${user.username}</span>
+                </a>
+                <button class="ghost-btn" type="button" onclick="logout()" style="padding:0.5rem 1rem;font-size:0.85rem;">Logout</button>
+              </div>
+            `;
+          }
+        }
+      } catch (e) {
+        // Server not running or not authenticated â€” keep default buttons
+      }
+    })();
+
+    function logout() {
+      localStorage.removeItem(AUTH_TOKEN_KEY);
+      fetch(API_BASE + "/api/logout", { method: "POST" }).finally(() => {
+        window.location.href = "index.html";
+      });
+    }
+  </script>
+</body>
+
+</html>
