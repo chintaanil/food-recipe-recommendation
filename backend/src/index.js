@@ -377,9 +377,13 @@ app.use(express.urlencoded({ extended: true }));
 // CORS — allow frontend dev server (port 5500) to call APIs
 app.use(
   cors({
-    origin: process.env.ALLOWED_ORIGINS
-      ? process.env.ALLOWED_ORIGINS.split(",")
-      : ["http://localhost:5500", "http://127.0.0.1:5500", "http://localhost:3000"],
+    origin: [
+      "http://localhost:5500",
+      "http://127.0.0.1:5500",
+      "http://localhost:3000",
+      "https://food-recipe-recommendation.vercel.app"
+    ],
+    credentials: true
   })
 );
 
